@@ -1,0 +1,1395 @@
+{
+ "_note": "Approximate hand-entered values (BLS LAUS mid-2025, ACS 2023). Illustrative policy pressures. Refresh with scripts/fetch_data.py.",
+ "states": [
+  {
+   "code": "AL",
+   "name": "Alabama",
+   "region": "Deep South",
+   "unemployment_pct": 3.3,
+   "median_income": 62000,
+   "median_rent": 1000,
+   "rent_burden_pct": 19.4,
+   "federal_funds_share_pct": 41,
+   "key_industries": [
+    "auto manufacturing",
+    "aerospace",
+    "poultry"
+   ],
+   "policy_pressures": [
+    "Medicaid expansion stalemate",
+    "rural hospital closures",
+    "grocery tax fight"
+   ],
+   "neighbors": [
+    "MS",
+    "TN",
+    "GA",
+    "FL"
+   ],
+   "partisan_lean": 31
+  },
+  {
+   "code": "AK",
+   "name": "Alaska",
+   "region": "Pacific",
+   "unemployment_pct": 4.7,
+   "median_income": 89000,
+   "median_rent": 1350,
+   "rent_burden_pct": 18.2,
+   "federal_funds_share_pct": 38,
+   "key_industries": [
+    "oil & gas",
+    "fishing",
+    "federal/military"
+   ],
+   "policy_pressures": [
+    "Permanent Fund dividend cuts",
+    "ferry service cuts",
+    "oil revenue volatility"
+   ],
+   "neighbors": [],
+   "partisan_lean": 13
+  },
+  {
+   "code": "AZ",
+   "name": "Arizona",
+   "region": "Southwest",
+   "unemployment_pct": 4.1,
+   "median_income": 77000,
+   "median_rent": 1500,
+   "rent_burden_pct": 23.4,
+   "federal_funds_share_pct": 38,
+   "key_industries": [
+    "semiconductors",
+    "construction",
+    "tourism"
+   ],
+   "policy_pressures": [
+    "Colorado River water cuts",
+    "housing cost surge",
+    "school voucher budget hole"
+   ],
+   "neighbors": [
+    "CA",
+    "NV",
+    "UT",
+    "NM",
+    "CO"
+   ],
+   "partisan_lean": 5
+  },
+  {
+   "code": "AR",
+   "name": "Arkansas",
+   "region": "South",
+   "unemployment_pct": 3.7,
+   "median_income": 58000,
+   "median_rent": 900,
+   "rent_burden_pct": 18.6,
+   "federal_funds_share_pct": 36,
+   "key_industries": [
+    "retail HQ",
+    "agriculture",
+    "trucking"
+   ],
+   "policy_pressures": [
+    "low wages vs rising rent",
+    "rural broadband gaps",
+    "Medicaid work requirements"
+   ],
+   "neighbors": [
+    "MO",
+    "TN",
+    "MS",
+    "LA",
+    "TX",
+    "OK"
+   ],
+   "partisan_lean": 31
+  },
+  {
+   "code": "CA",
+   "name": "California",
+   "region": "West Coast",
+   "unemployment_pct": 5.5,
+   "median_income": 96000,
+   "median_rent": 2000,
+   "rent_burden_pct": 25.0,
+   "federal_funds_share_pct": 32,
+   "key_industries": [
+    "tech",
+    "entertainment",
+    "agriculture",
+    "ports"
+   ],
+   "policy_pressures": [
+    "home insurance market collapse",
+    "housing affordability crisis",
+    "state budget deficit",
+    "wildfire recovery"
+   ],
+   "neighbors": [
+    "OR",
+    "NV",
+    "AZ"
+   ],
+   "partisan_lean": -20
+  },
+  {
+   "code": "CO",
+   "name": "Colorado",
+   "region": "Mountain West",
+   "unemployment_pct": 4.2,
+   "median_income": 93000,
+   "median_rent": 1700,
+   "rent_burden_pct": 21.9,
+   "federal_funds_share_pct": 28,
+   "key_industries": [
+    "aerospace",
+    "outdoor recreation",
+    "energy"
+   ],
+   "policy_pressures": [
+    "property tax spike",
+    "water scarcity",
+    "housing costs in mountain towns"
+   ],
+   "neighbors": [
+    "WY",
+    "NE",
+    "KS",
+    "OK",
+    "NM",
+    "AZ",
+    "UT"
+   ],
+   "partisan_lean": -11
+  },
+  {
+   "code": "CT",
+   "name": "Connecticut",
+   "region": "Northeast",
+   "unemployment_pct": 3.6,
+   "median_income": 93000,
+   "median_rent": 1450,
+   "rent_burden_pct": 18.7,
+   "federal_funds_share_pct": 27,
+   "key_industries": [
+    "insurance",
+    "defense manufacturing",
+    "finance"
+   ],
+   "policy_pressures": [
+    "electric rates among highest in US",
+    "pension burden",
+    "cost of living squeeze"
+   ],
+   "neighbors": [
+    "NY",
+    "MA",
+    "RI"
+   ],
+   "partisan_lean": -15
+  },
+  {
+   "code": "DE",
+   "name": "Delaware",
+   "region": "Mid-Atlantic",
+   "unemployment_pct": 3.9,
+   "median_income": 82000,
+   "median_rent": 1400,
+   "rent_burden_pct": 20.5,
+   "federal_funds_share_pct": 30,
+   "key_industries": [
+    "corporate services",
+    "chemicals",
+    "banking"
+   ],
+   "policy_pressures": [
+    "coastal flooding costs",
+    "hospital cost review fight",
+    "state budget shortfall"
+   ],
+   "neighbors": [
+    "MD",
+    "PA",
+    "NJ"
+   ],
+   "partisan_lean": -15
+  },
+  {
+   "code": "FL",
+   "name": "Florida",
+   "region": "South",
+   "unemployment_pct": 3.7,
+   "median_income": 73000,
+   "median_rent": 1650,
+   "rent_burden_pct": 27.1,
+   "federal_funds_share_pct": 33,
+   "key_industries": [
+    "tourism",
+    "real estate",
+    "agriculture",
+    "aerospace"
+   ],
+   "policy_pressures": [
+    "homeowners insurance crisis",
+    "condo assessment shock",
+    "property tax repeal push",
+    "hurricane recovery"
+   ],
+   "neighbors": [
+    "AL",
+    "GA"
+   ],
+   "partisan_lean": 13
+  },
+  {
+   "code": "GA",
+   "name": "Georgia",
+   "region": "South",
+   "unemployment_pct": 3.5,
+   "median_income": 75000,
+   "median_rent": 1350,
+   "rent_burden_pct": 21.6,
+   "federal_funds_share_pct": 33,
+   "key_industries": [
+    "logistics",
+    "film",
+    "EV manufacturing",
+    "agriculture"
+   ],
+   "policy_pressures": [
+    "Medicaid expansion refusal",
+    "data center power bills",
+    "rural hospital closures"
+   ],
+   "neighbors": [
+    "FL",
+    "AL",
+    "TN",
+    "NC",
+    "SC"
+   ],
+   "partisan_lean": 2
+  },
+  {
+   "code": "HI",
+   "name": "Hawaii",
+   "region": "Pacific",
+   "unemployment_pct": 2.9,
+   "median_income": 98000,
+   "median_rent": 2000,
+   "rent_burden_pct": 24.5,
+   "federal_funds_share_pct": 25,
+   "key_industries": [
+    "tourism",
+    "military",
+    "agriculture"
+   ],
+   "policy_pressures": [
+    "highest cost of living in US",
+    "Maui wildfire recovery",
+    "outmigration of residents"
+   ],
+   "neighbors": [],
+   "partisan_lean": -24
+  },
+  {
+   "code": "ID",
+   "name": "Idaho",
+   "region": "Mountain West",
+   "unemployment_pct": 3.5,
+   "median_income": 75000,
+   "median_rent": 1250,
+   "rent_burden_pct": 20.0,
+   "federal_funds_share_pct": 30,
+   "key_industries": [
+    "agriculture",
+    "tech",
+    "timber"
+   ],
+   "policy_pressures": [
+    "housing costs from in-migration",
+    "property tax relief fight",
+    "Medicaid budget cuts"
+   ],
+   "neighbors": [
+    "MT",
+    "WY",
+    "UT",
+    "NV",
+    "OR",
+    "WA"
+   ],
+   "partisan_lean": 37
+  },
+  {
+   "code": "IL",
+   "name": "Illinois",
+   "region": "Great Lakes",
+   "unemployment_pct": 4.8,
+   "median_income": 81000,
+   "median_rent": 1250,
+   "rent_burden_pct": 18.5,
+   "federal_funds_share_pct": 30,
+   "key_industries": [
+    "finance",
+    "manufacturing",
+    "agriculture",
+    "logistics"
+   ],
+   "policy_pressures": [
+    "pension debt",
+    "transit fiscal cliff",
+    "property tax burden"
+   ],
+   "neighbors": [
+    "IN",
+    "KY",
+    "MO",
+    "IA",
+    "WI"
+   ],
+   "partisan_lean": -11
+  },
+  {
+   "code": "IN",
+   "name": "Indiana",
+   "region": "Great Lakes",
+   "unemployment_pct": 3.6,
+   "median_income": 70000,
+   "median_rent": 1050,
+   "rent_burden_pct": 18.0,
+   "federal_funds_share_pct": 36,
+   "key_industries": [
+    "manufacturing",
+    "pharma",
+    "logistics"
+   ],
+   "policy_pressures": [
+    "property tax overhaul",
+    "Medicaid cost overrun",
+    "factory layoffs"
+   ],
+   "neighbors": [
+    "MI",
+    "OH",
+    "KY",
+    "IL"
+   ],
+   "partisan_lean": 19
+  },
+  {
+   "code": "IA",
+   "name": "Iowa",
+   "region": "Midwest",
+   "unemployment_pct": 3.5,
+   "median_income": 73000,
+   "median_rent": 950,
+   "rent_burden_pct": 15.6,
+   "federal_funds_share_pct": 33,
+   "key_industries": [
+    "agriculture",
+    "insurance",
+    "wind energy"
+   ],
+   "policy_pressures": [
+    "farm income decline",
+    "tariff retaliation on exports",
+    "CO2 pipeline eminent domain"
+   ],
+   "neighbors": [
+    "MN",
+    "WI",
+    "IL",
+    "MO",
+    "NE",
+    "SD"
+   ],
+   "partisan_lean": 13
+  },
+  {
+   "code": "KS",
+   "name": "Kansas",
+   "region": "Plains",
+   "unemployment_pct": 3.8,
+   "median_income": 72000,
+   "median_rent": 1000,
+   "rent_burden_pct": 16.7,
+   "federal_funds_share_pct": 28,
+   "key_industries": [
+    "aviation manufacturing",
+    "agriculture",
+    "oil"
+   ],
+   "policy_pressures": [
+    "Ogallala aquifer depletion",
+    "rural depopulation",
+    "Medicaid expansion stalemate"
+   ],
+   "neighbors": [
+    "NE",
+    "MO",
+    "OK",
+    "CO"
+   ],
+   "partisan_lean": 16
+  },
+  {
+   "code": "KY",
+   "name": "Kentucky",
+   "region": "South",
+   "unemployment_pct": 5.0,
+   "median_income": 62000,
+   "median_rent": 950,
+   "rent_burden_pct": 18.4,
+   "federal_funds_share_pct": 42,
+   "key_industries": [
+    "auto manufacturing",
+    "bourbon",
+    "coal",
+    "logistics"
+   ],
+   "policy_pressures": [
+    "coal job losses",
+    "flood recovery in eastern counties",
+    "SNAP cost-shift"
+   ],
+   "neighbors": [
+    "IN",
+    "OH",
+    "WV",
+    "VA",
+    "TN",
+    "MO",
+    "IL"
+   ],
+   "partisan_lean": 31
+  },
+  {
+   "code": "LA",
+   "name": "Louisiana",
+   "region": "Gulf",
+   "unemployment_pct": 4.3,
+   "median_income": 58000,
+   "median_rent": 1050,
+   "rent_burden_pct": 21.7,
+   "federal_funds_share_pct": 46,
+   "key_industries": [
+    "oil & gas",
+    "petrochemicals",
+    "shipping",
+    "seafood"
+   ],
+   "policy_pressures": [
+    "insurance market collapse",
+    "coastal land loss",
+    "income tax overhaul",
+    "refinery layoffs"
+   ],
+   "neighbors": [
+    "TX",
+    "AR",
+    "MS"
+   ],
+   "partisan_lean": 22
+  },
+  {
+   "code": "ME",
+   "name": "Maine",
+   "region": "Northeast",
+   "unemployment_pct": 3.3,
+   "median_income": 74000,
+   "median_rent": 1150,
+   "rent_burden_pct": 18.6,
+   "federal_funds_share_pct": 36,
+   "key_industries": [
+    "tourism",
+    "fishing",
+    "forest products"
+   ],
+   "policy_pressures": [
+    "housing shortage",
+    "aging workforce",
+    "federal funding freeze disputes"
+   ],
+   "neighbors": [
+    "NH"
+   ],
+   "partisan_lean": -7
+  },
+  {
+   "code": "MD",
+   "name": "Maryland",
+   "region": "Mid-Atlantic",
+   "unemployment_pct": 3.3,
+   "median_income": 101000,
+   "median_rent": 1650,
+   "rent_burden_pct": 19.6,
+   "federal_funds_share_pct": 29,
+   "key_industries": [
+    "federal government",
+    "biotech",
+    "cybersecurity"
+   ],
+   "policy_pressures": [
+    "federal workforce layoffs",
+    "transit funding gap",
+    "budget deficit"
+   ],
+   "neighbors": [
+    "VA",
+    "WV",
+    "PA",
+    "DE"
+   ],
+   "partisan_lean": -29
+  },
+  {
+   "code": "MA",
+   "name": "Massachusetts",
+   "region": "Northeast",
+   "unemployment_pct": 4.6,
+   "median_income": 100000,
+   "median_rent": 1800,
+   "rent_burden_pct": 21.6,
+   "federal_funds_share_pct": 33,
+   "key_industries": [
+    "biotech",
+    "higher education",
+    "finance",
+    "healthcare"
+   ],
+   "policy_pressures": [
+    "research funding cuts",
+    "housing affordability",
+    "MBTA fiscal cliff",
+    "migrant shelter costs"
+   ],
+   "neighbors": [
+    "RI",
+    "CT",
+    "NY",
+    "NH",
+    "VT"
+   ],
+   "partisan_lean": -25
+  },
+  {
+   "code": "MI",
+   "name": "Michigan",
+   "region": "Great Lakes",
+   "unemployment_pct": 5.3,
+   "median_income": 70000,
+   "median_rent": 1100,
+   "rent_burden_pct": 18.9,
+   "federal_funds_share_pct": 37,
+   "key_industries": [
+    "auto manufacturing",
+    "agriculture",
+    "tourism"
+   ],
+   "policy_pressures": [
+    "auto tariff whiplash",
+    "EV plant cancellations",
+    "road funding fight"
+   ],
+   "neighbors": [
+    "OH",
+    "IN",
+    "WI"
+   ],
+   "partisan_lean": 1
+  },
+  {
+   "code": "MN",
+   "name": "Minnesota",
+   "region": "Midwest",
+   "unemployment_pct": 3.3,
+   "median_income": 87000,
+   "median_rent": 1300,
+   "rent_burden_pct": 17.9,
+   "federal_funds_share_pct": 28,
+   "key_industries": [
+    "healthcare",
+    "medical devices",
+    "agriculture",
+    "retail HQ"
+   ],
+   "policy_pressures": [
+    "property tax increases",
+    "state budget deficit forecast",
+    "rural hospital closures"
+   ],
+   "neighbors": [
+    "WI",
+    "IA",
+    "SD",
+    "ND"
+   ],
+   "partisan_lean": -4
+  },
+  {
+   "code": "MS",
+   "name": "Mississippi",
+   "region": "Deep South",
+   "unemployment_pct": 3.8,
+   "median_income": 54000,
+   "median_rent": 950,
+   "rent_burden_pct": 21.1,
+   "federal_funds_share_pct": 45,
+   "key_industries": [
+    "agriculture",
+    "shipbuilding",
+    "manufacturing"
+   ],
+   "policy_pressures": [
+    "income tax elimination gamble",
+    "Jackson water system",
+    "hospital closures"
+   ],
+   "neighbors": [
+    "LA",
+    "AR",
+    "TN",
+    "AL"
+   ],
+   "partisan_lean": 23
+  },
+  {
+   "code": "MO",
+   "name": "Missouri",
+   "region": "Midwest",
+   "unemployment_pct": 3.9,
+   "median_income": 69000,
+   "median_rent": 1050,
+   "rent_burden_pct": 18.3,
+   "federal_funds_share_pct": 37,
+   "key_industries": [
+    "aerospace",
+    "agriculture",
+    "healthcare",
+    "logistics"
+   ],
+   "policy_pressures": [
+    "abortion amendment repeal fight",
+    "St. Louis tornado recovery",
+    "stadium subsidy dispute"
+   ],
+   "neighbors": [
+    "IA",
+    "IL",
+    "KY",
+    "TN",
+    "AR",
+    "OK",
+    "KS",
+    "NE"
+   ],
+   "partisan_lean": 19
+  },
+  {
+   "code": "MT",
+   "name": "Montana",
+   "region": "Mountain West",
+   "unemployment_pct": 3.0,
+   "median_income": 70000,
+   "median_rent": 1100,
+   "rent_burden_pct": 18.9,
+   "federal_funds_share_pct": 40,
+   "key_industries": [
+    "agriculture",
+    "tourism",
+    "mining"
+   ],
+   "policy_pressures": [
+    "property tax surge on homeowners",
+    "housing costs from newcomers",
+    "public land access"
+   ],
+   "neighbors": [
+    "ND",
+    "SD",
+    "WY",
+    "ID"
+   ],
+   "partisan_lean": 20
+  },
+  {
+   "code": "NE",
+   "name": "Nebraska",
+   "region": "Plains",
+   "unemployment_pct": 3.0,
+   "median_income": 75000,
+   "median_rent": 1050,
+   "rent_burden_pct": 16.8,
+   "federal_funds_share_pct": 29,
+   "key_industries": [
+    "agriculture",
+    "insurance",
+    "transportation"
+   ],
+   "policy_pressures": [
+    "property tax relief fight",
+    "farm income decline",
+    "water allocation"
+   ],
+   "neighbors": [
+    "SD",
+    "IA",
+    "MO",
+    "KS",
+    "CO",
+    "WY"
+   ],
+   "partisan_lean": 21
+  },
+  {
+   "code": "NV",
+   "name": "Nevada",
+   "region": "Southwest",
+   "unemployment_pct": 5.5,
+   "median_income": 76000,
+   "median_rent": 1500,
+   "rent_burden_pct": 23.7,
+   "federal_funds_share_pct": 30,
+   "key_industries": [
+    "gaming",
+    "tourism",
+    "mining",
+    "logistics"
+   ],
+   "policy_pressures": [
+    "tourism slump layoffs",
+    "housing costs",
+    "water cuts from Colorado River"
+   ],
+   "neighbors": [
+    "ID",
+    "UT",
+    "AZ",
+    "CA",
+    "OR"
+   ],
+   "partisan_lean": 3
+  },
+  {
+   "code": "NH",
+   "name": "New Hampshire",
+   "region": "Northeast",
+   "unemployment_pct": 3.0,
+   "median_income": 97000,
+   "median_rent": 1500,
+   "rent_burden_pct": 18.6,
+   "federal_funds_share_pct": 28,
+   "key_industries": [
+    "manufacturing",
+    "healthcare",
+    "tourism"
+   ],
+   "policy_pressures": [
+    "housing shortage",
+    "property tax burden",
+    "electric rates"
+   ],
+   "neighbors": [
+    "VT",
+    "ME",
+    "MA"
+   ],
+   "partisan_lean": -3
+  },
+  {
+   "code": "NJ",
+   "name": "New Jersey",
+   "region": "Mid-Atlantic",
+   "unemployment_pct": 4.8,
+   "median_income": 101000,
+   "median_rent": 1700,
+   "rent_burden_pct": 20.2,
+   "federal_funds_share_pct": 27,
+   "key_industries": [
+    "pharma",
+    "finance",
+    "logistics"
+   ],
+   "policy_pressures": [
+    "highest property taxes in US",
+    "transit fare hikes",
+    "electric bill spike"
+   ],
+   "neighbors": [
+    "DE",
+    "PA",
+    "NY"
+   ],
+   "partisan_lean": -6
+  },
+  {
+   "code": "NM",
+   "name": "New Mexico",
+   "region": "Southwest",
+   "unemployment_pct": 4.4,
+   "median_income": 62000,
+   "median_rent": 1100,
+   "rent_burden_pct": 21.3,
+   "federal_funds_share_pct": 42,
+   "key_industries": [
+    "oil & gas",
+    "federal labs",
+    "tourism"
+   ],
+   "policy_pressures": [
+    "oil revenue dependence",
+    "water scarcity",
+    "child welfare system crisis"
+   ],
+   "neighbors": [
+    "AZ",
+    "UT",
+    "CO",
+    "OK",
+    "TX"
+   ],
+   "partisan_lean": -6
+  },
+  {
+   "code": "NY",
+   "name": "New York",
+   "region": "Mid-Atlantic",
+   "unemployment_pct": 4.1,
+   "median_income": 84000,
+   "median_rent": 1700,
+   "rent_burden_pct": 24.3,
+   "federal_funds_share_pct": 36,
+   "key_industries": [
+    "finance",
+    "media",
+    "healthcare",
+    "tech"
+   ],
+   "policy_pressures": [
+    "housing affordability",
+    "Medicaid cost shift to state",
+    "transit funding",
+    "congestion pricing dispute"
+   ],
+   "neighbors": [
+    "NJ",
+    "PA",
+    "VT",
+    "MA",
+    "CT"
+   ],
+   "partisan_lean": -12
+  },
+  {
+   "code": "NC",
+   "name": "North Carolina",
+   "region": "South",
+   "unemployment_pct": 3.6,
+   "median_income": 70000,
+   "median_rent": 1250,
+   "rent_burden_pct": 21.4,
+   "federal_funds_share_pct": 34,
+   "key_industries": [
+    "banking",
+    "biotech",
+    "manufacturing",
+    "agriculture"
+   ],
+   "policy_pressures": [
+    "Hurricane Helene recovery",
+    "Medicaid funding uncertainty",
+    "housing costs in metros"
+   ],
+   "neighbors": [
+    "VA",
+    "TN",
+    "GA",
+    "SC"
+   ],
+   "partisan_lean": 3
+  },
+  {
+   "code": "ND",
+   "name": "North Dakota",
+   "region": "Plains",
+   "unemployment_pct": 2.6,
+   "median_income": 76000,
+   "median_rent": 950,
+   "rent_burden_pct": 15.0,
+   "federal_funds_share_pct": 27,
+   "key_industries": [
+    "oil",
+    "agriculture"
+   ],
+   "policy_pressures": [
+    "oil price volatility",
+    "property tax elimination push",
+    "farm export tariffs"
+   ],
+   "neighbors": [
+    "MN",
+    "SD",
+    "MT"
+   ],
+   "partisan_lean": 37
+  },
+  {
+   "code": "OH",
+   "name": "Ohio",
+   "region": "Great Lakes",
+   "unemployment_pct": 4.8,
+   "median_income": 69000,
+   "median_rent": 1050,
+   "rent_burden_pct": 18.3,
+   "federal_funds_share_pct": 36,
+   "key_industries": [
+    "manufacturing",
+    "healthcare",
+    "logistics",
+    "finance"
+   ],
+   "policy_pressures": [
+    "property tax revolt",
+    "Intel plant delays",
+    "SNAP and Medicaid cost shift"
+   ],
+   "neighbors": [
+    "PA",
+    "WV",
+    "KY",
+    "IN",
+    "MI"
+   ],
+   "partisan_lean": 11
+  },
+  {
+   "code": "OK",
+   "name": "Oklahoma",
+   "region": "Plains",
+   "unemployment_pct": 3.2,
+   "median_income": 63000,
+   "median_rent": 1000,
+   "rent_burden_pct": 19.0,
+   "federal_funds_share_pct": 34,
+   "key_industries": [
+    "oil & gas",
+    "aerospace",
+    "agriculture"
+   ],
+   "policy_pressures": [
+    "income tax cut vs school funding",
+    "tornado and drought losses",
+    "tribal jurisdiction disputes"
+   ],
+   "neighbors": [
+    "KS",
+    "MO",
+    "AR",
+    "TX",
+    "NM",
+    "CO"
+   ],
+   "partisan_lean": 35
+  },
+  {
+   "code": "OR",
+   "name": "Oregon",
+   "region": "Pacific Northwest",
+   "unemployment_pct": 4.7,
+   "median_income": 80000,
+   "median_rent": 1500,
+   "rent_burden_pct": 22.5,
+   "federal_funds_share_pct": 33,
+   "key_industries": [
+    "tech",
+    "timber",
+    "agriculture",
+    "outdoor gear"
+   ],
+   "policy_pressures": [
+    "homelessness response costs",
+    "transportation funding gap",
+    "timber county revenue loss"
+   ],
+   "neighbors": [
+    "CA",
+    "NV",
+    "ID",
+    "WA"
+   ],
+   "partisan_lean": -15
+  },
+  {
+   "code": "PA",
+   "name": "Pennsylvania",
+   "region": "Mid-Atlantic",
+   "unemployment_pct": 3.8,
+   "median_income": 76000,
+   "median_rent": 1200,
+   "rent_burden_pct": 18.9,
+   "federal_funds_share_pct": 36,
+   "key_industries": [
+    "healthcare",
+    "manufacturing",
+    "natural gas",
+    "education"
+   ],
+   "policy_pressures": [
+    "transit funding crisis",
+    "electric rate increases",
+    "data center power demand"
+   ],
+   "neighbors": [
+    "NY",
+    "NJ",
+    "DE",
+    "MD",
+    "WV",
+    "OH"
+   ],
+   "partisan_lean": 2
+  },
+  {
+   "code": "RI",
+   "name": "Rhode Island",
+   "region": "Northeast",
+   "unemployment_pct": 4.8,
+   "median_income": 85000,
+   "median_rent": 1400,
+   "rent_burden_pct": 19.8,
+   "federal_funds_share_pct": 34,
+   "key_industries": [
+    "healthcare",
+    "education",
+    "defense"
+   ],
+   "policy_pressures": [
+    "Washington Bridge closure",
+    "housing shortage",
+    "hospital system finances"
+   ],
+   "neighbors": [
+    "CT",
+    "MA"
+   ],
+   "partisan_lean": -14
+  },
+  {
+   "code": "SC",
+   "name": "South Carolina",
+   "region": "South",
+   "unemployment_pct": 4.2,
+   "median_income": 68000,
+   "median_rent": 1250,
+   "rent_burden_pct": 22.1,
+   "federal_funds_share_pct": 32,
+   "key_industries": [
+    "auto manufacturing",
+    "aerospace",
+    "tourism",
+    "ports"
+   ],
+   "policy_pressures": [
+    "coastal insurance costs",
+    "income tax cut fight",
+    "power rate increases"
+   ],
+   "neighbors": [
+    "GA",
+    "NC"
+   ],
+   "partisan_lean": 18
+  },
+  {
+   "code": "SD",
+   "name": "South Dakota",
+   "region": "Plains",
+   "unemployment_pct": 1.9,
+   "median_income": 73000,
+   "median_rent": 950,
+   "rent_burden_pct": 15.6,
+   "federal_funds_share_pct": 34,
+   "key_industries": [
+    "agriculture",
+    "finance",
+    "tourism"
+   ],
+   "policy_pressures": [
+    "property tax relief fight",
+    "CO2 pipeline eminent domain",
+    "farm export tariffs"
+   ],
+   "neighbors": [
+    "ND",
+    "MN",
+    "IA",
+    "NE",
+    "WY",
+    "MT"
+   ],
+   "partisan_lean": 30
+  },
+  {
+   "code": "TN",
+   "name": "Tennessee",
+   "region": "South",
+   "unemployment_pct": 3.6,
+   "median_income": 67000,
+   "median_rent": 1250,
+   "rent_burden_pct": 22.4,
+   "federal_funds_share_pct": 38,
+   "key_industries": [
+    "healthcare",
+    "auto manufacturing",
+    "music",
+    "logistics"
+   ],
+   "policy_pressures": [
+    "school voucher costs",
+    "housing costs in Nashville",
+    "rural hospital closures"
+   ],
+   "neighbors": [
+    "KY",
+    "VA",
+    "NC",
+    "GA",
+    "AL",
+    "MS",
+    "AR",
+    "MO"
+   ],
+   "partisan_lean": 30
+  },
+  {
+   "code": "TX",
+   "name": "Texas",
+   "region": "Southwest",
+   "unemployment_pct": 4.1,
+   "median_income": 76000,
+   "median_rent": 1400,
+   "rent_burden_pct": 22.1,
+   "federal_funds_share_pct": 32,
+   "key_industries": [
+    "oil & gas",
+    "tech",
+    "manufacturing",
+    "ports"
+   ],
+   "policy_pressures": [
+    "property tax burden",
+    "grid reliability",
+    "Hill Country flood recovery",
+    "home insurance costs"
+   ],
+   "neighbors": [
+    "NM",
+    "OK",
+    "AR",
+    "LA"
+   ],
+   "partisan_lean": 14
+  },
+  {
+   "code": "UT",
+   "name": "Utah",
+   "region": "Mountain West",
+   "unemployment_pct": 3.3,
+   "median_income": 95000,
+   "median_rent": 1450,
+   "rent_burden_pct": 18.3,
+   "federal_funds_share_pct": 25,
+   "key_industries": [
+    "tech",
+    "finance",
+    "tourism",
+    "mining"
+   ],
+   "policy_pressures": [
+    "housing costs for young families",
+    "Great Salt Lake decline",
+    "water allocation"
+   ],
+   "neighbors": [
+    "ID",
+    "WY",
+    "CO",
+    "NM",
+    "AZ",
+    "NV"
+   ],
+   "partisan_lean": 22
+  },
+  {
+   "code": "VT",
+   "name": "Vermont",
+   "region": "Northeast",
+   "unemployment_pct": 2.7,
+   "median_income": 82000,
+   "median_rent": 1250,
+   "rent_burden_pct": 18.3,
+   "federal_funds_share_pct": 36,
+   "key_industries": [
+    "tourism",
+    "education",
+    "healthcare",
+    "dairy"
+   ],
+   "policy_pressures": [
+    "property tax spike from school costs",
+    "housing shortage",
+    "flood recovery"
+   ],
+   "neighbors": [
+    "NY",
+    "NH",
+    "MA"
+   ],
+   "partisan_lean": -32
+  },
+  {
+   "code": "VA",
+   "name": "Virginia",
+   "region": "Mid-Atlantic",
+   "unemployment_pct": 3.4,
+   "median_income": 91000,
+   "median_rent": 1550,
+   "rent_burden_pct": 20.4,
+   "federal_funds_share_pct": 24,
+   "key_industries": [
+    "federal government",
+    "defense",
+    "tech",
+    "agriculture"
+   ],
+   "policy_pressures": [
+    "federal workforce layoffs",
+    "data center power bills",
+    "toll road costs"
+   ],
+   "neighbors": [
+    "NC",
+    "TN",
+    "KY",
+    "WV",
+    "MD"
+   ],
+   "partisan_lean": -6
+  },
+  {
+   "code": "WA",
+   "name": "Washington",
+   "region": "Pacific Northwest",
+   "unemployment_pct": 4.5,
+   "median_income": 95000,
+   "median_rent": 1750,
+   "rent_burden_pct": 22.1,
+   "federal_funds_share_pct": 28,
+   "key_industries": [
+    "tech",
+    "aerospace",
+    "agriculture",
+    "ports"
+   ],
+   "policy_pressures": [
+    "state budget shortfall",
+    "new taxes fight",
+    "Boeing layoffs",
+    "ferry system failures"
+   ],
+   "neighbors": [
+    "ID",
+    "OR"
+   ],
+   "partisan_lean": -19
+  },
+  {
+   "code": "WV",
+   "name": "West Virginia",
+   "region": "South",
+   "unemployment_pct": 4.0,
+   "median_income": 56000,
+   "median_rent": 850,
+   "rent_burden_pct": 18.2,
+   "federal_funds_share_pct": 42,
+   "key_industries": [
+    "coal",
+    "natural gas",
+    "healthcare"
+   ],
+   "policy_pressures": [
+    "coal job losses",
+    "PEIA health premium hikes",
+    "foster care system strain"
+   ],
+   "neighbors": [
+    "OH",
+    "PA",
+    "MD",
+    "VA",
+    "KY"
+   ],
+   "partisan_lean": 42
+  },
+  {
+   "code": "WI",
+   "name": "Wisconsin",
+   "region": "Great Lakes",
+   "unemployment_pct": 3.2,
+   "median_income": 75000,
+   "median_rent": 1050,
+   "rent_burden_pct": 16.8,
+   "federal_funds_share_pct": 30,
+   "key_industries": [
+    "manufacturing",
+    "dairy",
+    "healthcare"
+   ],
+   "policy_pressures": [
+    "farm closures",
+    "shared revenue fight",
+    "Microsoft data center power deal"
+   ],
+   "neighbors": [
+    "MI",
+    "MN",
+    "IA",
+    "IL"
+   ],
+   "partisan_lean": 1
+  },
+  {
+   "code": "WY",
+   "name": "Wyoming",
+   "region": "Mountain West",
+   "unemployment_pct": 3.0,
+   "median_income": 73000,
+   "median_rent": 950,
+   "rent_burden_pct": 15.6,
+   "federal_funds_share_pct": 33,
+   "key_industries": [
+    "coal",
+    "oil & gas",
+    "tourism"
+   ],
+   "policy_pressures": [
+    "coal revenue decline",
+    "property tax cap",
+    "federal land use disputes"
+   ],
+   "neighbors": [
+    "MT",
+    "SD",
+    "NE",
+    "CO",
+    "UT",
+    "ID"
+   ],
+   "partisan_lean": 46
+  }
+ ]
+}

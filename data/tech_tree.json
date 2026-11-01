@@ -1,0 +1,63 @@
+{
+  "start_year": 2026,
+  "pace_points": {"realistic": 10, "accelerated": 18, "singularity": 30},
+  "eras": [
+    {"name": "AI Shock Era", "when": {"AI": 1}},
+    {"name": "Warehouse Robot Era", "when": {"Robotics": 1}},
+    {"name": "Home Robot Era", "when": {"Robotics": 2}},
+    {"name": "Robot Labor Era", "when": {"Robotics": 4}},
+    {"name": "Autonomous Era", "when": {"Military Autonomy": 2}},
+    {"name": "Off-World Era", "when": {"Space": 2}},
+    {"name": "Fusion Era", "when": {"Energy": 3}},
+    {"name": "Interstellar Era", "when": {"Space": 6}}
+  ],
+  "tracks": {
+    "AI": [
+      {"id": "ai1", "name": "Frontier assistants everywhere", "cost": 20, "effects": {"unemployment": {"services": 0.6, "finance": 0.4}}},
+      {"id": "ai2", "name": "Agentic AI runs back offices", "cost": 45, "effects": {"unemployment": {"services": 1.2, "finance": 0.8, "government": 0.5}, "grievance": "automation"},
+       "companies": [{"sym": "AGNT", "name": "Agentic Systems Inc.", "sector": "AI & Software", "price": 212.0}]},
+      {"id": "ai3", "name": "AI drafts most legislation and court filings", "cost": 70, "effects": {"unemployment": {"government": 0.8}, "escalation": 1.05}},
+      {"id": "ai4", "name": "Machine candidates on state ballots", "cost": 100, "effects": {"novelty": "machine_candidates"}},
+      {"id": "ai5", "name": "AI runs federal agencies day to day", "cost": 140, "effects": {"unemployment": {"government": 1.5}, "escalation": 1.08}},
+      {"id": "ai6", "name": "Self-improving research AI", "cost": 190, "prereq": ["ai5", "en3"], "effects": {"all_tracks_bonus": 0.3}}
+    ],
+    "Robotics": [
+      {"id": "rb1", "name": "Warehouse and delivery robots", "cost": 20, "effects": {"unemployment": {"logistics": 1.0, "retail": 0.5}}},
+      {"id": "rb2", "name": "Home humanoids on sale", "cost": 50, "prereq": ["ai1"], "effects": {"unemployment": {"services": 0.8}, "companies": true},
+       "companies": [{"sym": "HOMR", "name": "Homera Robotics", "sector": "Robotics", "price": 96.0}]},
+      {"id": "rb3", "name": "Robot police and security patrols", "cost": 85, "prereq": ["ai2"], "effects": {"escalation": 0.85, "grievance": "surveillance"}},
+      {"id": "rb4", "name": "Robots are the majority of manual labor", "cost": 125, "effects": {"unemployment": {"manufacturing": 2.0, "logistics": 1.5, "agriculture": 1.2}, "escalation": 1.12, "grievance": "automation"}},
+      {"id": "rb5", "name": "Robot factories build robots", "cost": 170, "effects": {"bloc_factories": 1.0}},
+      {"id": "rb6", "name": "Humanoids outnumber workers", "cost": 230, "prereq": ["ai5"], "effects": {"unemployment": {"services": 2.0, "retail": 1.5}, "escalation": 1.15}}
+    ],
+    "Military Autonomy": [
+      {"id": "ma1", "name": "Autonomous drone squadrons", "cost": 25, "effects": {"federal_force": 0.05}},
+      {"id": "ma2", "name": "Robot infantry units", "cost": 60, "prereq": ["rb1"], "effects": {"federal_force": 0.12, "escalation": 0.95},
+       "companies": [{"sym": "SENT", "name": "Sentinel Autonomy", "sector": "Defense", "price": 150.0}]},
+      {"id": "ma3", "name": "Autonomous naval fleets", "cost": 100, "effects": {"federal_force": 0.2}},
+      {"id": "ma4", "name": "Guard units commanded by AI", "cost": 140, "prereq": ["ai3"], "effects": {"federal_force": 0.25, "guard_ai": true}},
+      {"id": "ma5", "name": "Fully autonomous defense doctrine", "cost": 200, "prereq": ["ai5"], "effects": {"federal_force": 0.35}}
+    ],
+    "Space": [
+      {"id": "sp1", "name": "Permanent lunar base", "cost": 30, "companies": [{"sym": "LUNA", "name": "Lunar Logistics", "sector": "Space", "price": 44.0}]},
+      {"id": "sp2", "name": "Mars outpost", "cost": 70, "prereq": ["sp1"], "effects": {"mars_vote": true}},
+      {"id": "sp3", "name": "Asteroid mining", "cost": 110, "prereq": ["sp1"], "companies": [{"sym": "ASTR", "name": "Astra Belt Mining", "sector": "Space", "price": 61.0}]},
+      {"id": "sp4", "name": "Mars colony (10,000 settlers)", "cost": 160, "prereq": ["sp2", "en2"], "effects": {"offworld": true}},
+      {"id": "sp5", "name": "Fusion drive", "cost": 220, "prereq": ["en3"]},
+      {"id": "sp6", "name": "Interstellar probe", "cost": 300, "prereq": ["sp5"], "gated": ["disclosure", "accelerated", "singularity"]}
+    ],
+    "Biotech/Neural": [
+      {"id": "bn1", "name": "Gene therapies for common disease", "cost": 30},
+      {"id": "bn2", "name": "Consumer neural interfaces", "cost": 70, "prereq": ["ai1"], "companies": [{"sym": "NEUR", "name": "Neurolink Labs", "sector": "Biotech", "price": 128.0}]},
+      {"id": "bn3", "name": "Longevity treatments for the rich", "cost": 110, "effects": {"grievance": "longevity"}},
+      {"id": "bn4", "name": "Neural voting and polling", "cost": 160, "prereq": ["ai3"]},
+      {"id": "bn5", "name": "Longevity for everyone", "cost": 220}
+    ],
+    "Energy": [
+      {"id": "en1", "name": "Grid-scale storage everywhere", "cost": 25},
+      {"id": "en2", "name": "Small modular reactors online", "cost": 60, "companies": [{"sym": "SMRX", "name": "Modular Reactor Co.", "sector": "Energy", "price": 72.0}]},
+      {"id": "en3", "name": "Commercial fusion", "cost": 120, "prereq": ["en2"], "effects": {"unemployment": {"energy": 1.5}, "prices": -2}},
+      {"id": "en4", "name": "Energy too cheap to meter", "cost": 200, "prereq": ["en3"], "effects": {"prices": -4}}
+    ]
+  }
+}

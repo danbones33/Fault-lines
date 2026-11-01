@@ -1,0 +1,4 @@
+BREAKING: The Bureau of Labor Statistics reports unemployment at 11.4 percent, the highest in forty years, after a wave of automation layoffs in trucking, warehousing, retail and insurance claims. Rent burdens pass 40 percent of income in a dozen states. Congress has broken up Helix Dynamics, the country's largest AI company, and banned its flagship model; leaked copies are already circulating on rented servers. Police budgets were cut 18 percent in the last budget deal; courts have a two-year backlog. Governors in Louisiana, Mississippi, Nevada and Michigan say organized fraud rings and cargo theft are now their top problem.
+
+Round 2: A federal audit finds 2.1 billion dollars in pandemic-era relief stolen through automated fraud rings using leaked AI models.
+Round 4: The White House announces a nationwide crackdown on organized fraud and cargo theft, with a federal task force in Louisiana, Mississippi, Nevada and Michigan.

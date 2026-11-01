@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAULT LINES</title>
+<link rel="stylesheet" href="/static/style.css?v=53">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1>FAULT LINES</h1>
+    <span class="sub">US unrest simulator on MiroFish-Offline / OASIS</span>
+  </div>
+  <div class="disclaimer">Simulation — LLM role-play, not a forecast.</div>
+  <div class="spend" id="spend" title="run spend vs budget"><div class="bar"><i></i></div><span>$0.00 / $0</span></div>
+  <div class="status" id="status">…</div>
+  <button id="settingsBtn" class="settings-btn" title="API keys, voices and the local model">⚙ Settings</button>
+</header>
+<div id="liveBar" class="live-bar idle" title="what the simulation is doing right now">
+  <span class="lb-state" id="lbState">NO RUN</span>
+  <span class="lb-main"><b id="lbRound"></b><span id="lbPhase">Write a scenario on the left and press Run simulation.</span></span>
+  <span class="lb-warn hidden" id="lbWarn"></span>
+  <span class="lb-media" id="lbMedia"></span>
+  <span class="lb-ago" id="lbAgo"></span>
+  <span class="lb-spend" id="lbSpend"></span>
+  <button id="lbLog" class="lb-btn" title="everything that has happened in this run">Activity log</button>
+  <div class="lb-bar"><i id="lbFill"></i></div>
+</div>
+
+<main>
+  <button id="leftToggle" class="left-toggle" title="scenario, runs, legend">☰</button>
+  <aside class="left" id="left">
+    <section class="card setup">
+      <h2>Scenario</h2>
+      <textarea id="scenario" rows="7" placeholder="Paste a news article, an invented policy, anything.">BREAKING: The Labor Department reports 4.1 million US jobs eliminated by AI automation in the past twelve months, concentrated in trucking, call centers, warehousing, insurance claims, paralegal work, and entry-level software. The White House signs an executive order voiding all state-level AI laws and rejects a federal AI Displacement Fund.</textarea>
+      <div class="grid2">
+        <div class="field"><label for="rounds">Rounds</label><input id="rounds" type="number" min="1" value="6"></div>
+        <div class="field"><label for="apr">Agents per round</label><input id="apr" type="number" min="1" max="50" value="25"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="startYear">Start year</label><input id="startYear" type="number" min="1900" max="2300" value="2026"></div>
+        <div class="field"><label for="startMonth">Start month</label><select id="startMonth"><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
+      </div>
+      <div class="hint">A campaign round is one day from that date; a continued season runs one quarter per round from the January after the election.</div>
+      <div class="field"><label>Mode</label>
+        <div class="seg" id="modeSeg" data-mode="unrest"><button type="button" data-mode="unrest" class="active">Unrest</button><button type="button" data-mode="election">Election</button></div>
+        <div class="hint" id="modeHint">States react to the scenario round by round; blocs form and crack.</div>
+      </div>
+      <div id="electionForm" class="election-form hidden">
+        <div class="field"><label for="elQuestion">On the ballot</label><input id="elQuestion" type="text" placeholder="Who should be the next President?" value="Who should be the next President?"></div>
+        <div class="cand red" id="candABox">
+          <div class="cand-head"><input id="candAName" type="text" placeholder="Candidate name" value="Sen. Cal Whitlock"><input id="candAParty" type="text" placeholder="party" value="Continuity"></div>
+          <div class="cand-row"><select id="candALane" title="political lane"><option value="right">Right · red</option><option value="center">Center · purple</option><option value="left">Left · blue</option></select>
+            <select id="candAVoice" title="voice"><option value="m">Voice: male</option><option value="f">Voice: female</option></select></div>
+          <textarea id="candABlurb" rows="4" placeholder="Who they are and what they promise. Age, where they're from and how they talk shape the portrait and the voice.">Hold the line on the debt, retraining vouchers instead of new funds, keep the executive order, protect the AI boom and energy jobs, no new taxes. Calm, numbers-driven, 61, from Kansas.</textarea>
+        </div>
+        <div class="cand blue" id="candBBox">
+          <div class="cand-head"><input id="candBName" type="text" placeholder="Candidate name" value="Gov. Lena Ortiz"><input id="candBParty" type="text" placeholder="party" value="Reform"></div>
+          <div class="cand-row"><select id="candBLane" title="political lane"><option value="left">Left · blue</option><option value="center">Center · purple</option><option value="right">Right · red</option></select>
+            <select id="candBVoice" title="voice"><option value="f">Voice: female</option><option value="m">Voice: male</option></select></div>
+          <textarea id="candBBlurb" rows="4" placeholder="Who they are and what they promise. Age, where they're from and how they talk shape the portrait and the voice.">Rent relief now, a federal AI Displacement Fund paid for by a levy on data centers and large tech firms, and a halt to federal preemption of state laws. Plainspoken, 44, from New Mexico.</textarea>
+        </div>
+      </div>
+      <label class="demo-row"><input type="checkbox" id="demoBox"> Demo run</label>
+      <div class="hint" id="demoHint">A demo uses canned text instead of the AI: quick, free, good for a look around.</div>
+      <button id="runBtn" class="primary">Run simulation</button>
+      <div id="runMsg" class="msg"></div>
+    </section>
+    <section class="card runs">
+      <h2>Runs</h2>
+      <select id="runSelect" size="7"></select>
+      <div class="row small"><button id="refreshRuns">Refresh</button><button id="stopBtn">Stop current</button></div>
+      <div id="continueBox" class="continue hidden">
+        <div class="continue-head">Next season</div>
+        <div class="hint">The winner takes office. One round per quarter for a full term, then a re-election.</div>
+        <textarea id="twist" rows="2" placeholder="Optional twist, e.g. “In Q2 of year 2 a banking panic hits” (quarter 6 = round 6)"></textarea>
+        <div class="row small"><button id="continueBtn" class="accent">Continue →</button><span id="continueMsg" class="muted"></span></div>
+      </div>
+    </section>
+    <section class="card legend">
+      <h2>Unrest ladder</h2>
+      <div id="legend"></div>
+      <div class="small muted" id="caps"></div>
+    </section>
+  </aside>
+
+  <section class="map-wrap">
+    <svg id="map"></svg>
+    <div id="tooltip" class="tooltip hidden"></div>
+    <div id="viewToggle" class="view-toggle hidden"><button data-view="unrest" class="active">Unrest</button><button data-view="election">Election</button><button data-view="approval" class="hidden">Approval</button><button data-view="conflict" class="hidden">Conflict</button><button data-view="crime" class="hidden">Crime</button></div>
+    <div id="warRoom" class="war-room hidden"></div>
+    <div id="dateBadge" class="date-badge hidden"></div>
+    <div id="setupOverlay" class="setup-overlay hidden"><div class="setup-box"><div class="spinner"></div><div id="setupTitle">Starting a run</div><div id="setupNote" class="muted"></div><div id="setupElapsed" class="small muted"></div></div></div>
+    <div id="evBar" class="ev-bar hidden">
+      <div class="ev-names"><span id="evNameA">A</span><span id="evToWin">268 to win</span><span id="evNameB">B</span></div>
+      <div class="ev-track"><i id="evFillA"></i><i id="evFillB"></i><b class="ev-line"></b></div>
+      <div class="ev-nums"><span id="evNumA">0</span><span id="evStatus">polling</span><span id="evNumB">0</span></div>
+    </div>
+    <div id="callToast" class="call-toast hidden"></div>
+
+    <div class="broadcast" id="broadcast">
+      <div class="bc-top"><span class="live">LIVE</span><span class="bc-net" id="bcNetName">FLN</span>
+        <span class="bc-tabs" id="bcTabs"></span><button id="bcToggle" class="bc-toggle" title="collapse">▾</button></div>
+      <div class="bc-screen" id="bcScreen">
+        <img id="bcAnchor" class="bc-anchor" alt="" src="">
+        <video id="bcVideo" class="bc-video hidden" playsinline></video>
+        <div id="bcStage" class="bc-stage hidden"></div>
+        <div class="chyron"><div class="chyron-head" id="chyronHead">FAULT LINES NETWORK</div><div class="chyron-sub" id="chyronSub">standing by</div></div>
+      </div>
+      <div class="bc-controls"><button id="bcPlay">▶ play</button><span class="small muted" id="bcMode"></span></div>
+      <div class="bc-script small" id="bcScript"></div>
+    </div>
+
+    <div class="tape"><div class="tape-inner" id="tape">FLN MARKETS · waiting for a run</div></div>
+    <div class="ticker"><div class="ticker-inner" id="ticker">FAULT LINES NETWORK · waiting for a run</div></div>
+    <div class="timeline" id="scrubRow">
+      <button id="playBtn" title="play/pause">▶</button>
+      <input id="scrub" type="range" min="0" max="0" value="0">
+      <div id="roundLabel">no run loaded</div>
+      <button id="epBtn" class="ep-btn" title="watch this run as a TV episode">📺 Episode</button>
+    </div>
+
+    <div id="epClock" class="ep-clock hidden">7:00 PM ET</div>
+    <div id="epInset" class="ep-inset hidden">
+      <div class="ep-top"><span class="live">LIVE</span><span id="epNet">FLN</span></div>
+      <div class="ep-screen"><img id="epImg" alt=""><img id="epReporter" class="ep-reporter hidden" alt="">
+        <div class="chyron"><div class="chyron-head" id="epHead"></div><div class="chyron-sub" id="epSub"></div></div></div>
+      <div id="epCaption" class="ep-caption"></div>
+    </div>
+    <div id="epStage" class="ep-stage hidden">
+      <div class="pods" id="epPods"></div>
+      <div class="meter"><div class="track" id="epMeter"></div></div>
+      <div id="epMeterLbl" class="small muted">instant poll</div>
+    </div>
+    <div id="epTitleCard" class="ep-card hidden"><div class="ep-card-in"><div id="epCardTitle">FAULT LINES</div><div id="epCardSub"></div></div></div>
+    <div id="epOverlay" class="ep-bar hidden">
+      <button id="epPlay" title="play / pause">▶</button><button id="epNext" title="next scene">⏭</button>
+      <span id="epEra" class="ep-era hidden"></span><span id="epScene" class="ep-scene">ready</span><span id="epCount" class="muted small"></span>
+      <div id="epChapters" class="chapters"></div>
+      <span id="epStatus" class="small muted"></span>
+      <button id="epSpoiler" class="small">spoiler-free: on</button><button id="epDebug" class="small">back to live</button><button id="epExit" class="small">✕</button>
+    </div>
+  </section>
+
+  <aside class="right">
+    <div class="tabs"><button data-tab="feed" class="active">Feed</button><button data-tab="markets">Markets</button><button data-tab="state">State</button><button data-tab="blocs">Blocs</button><button data-tab="term" class="hidden" id="termTab">Term</button><button data-tab="phone" id="phoneTab" title="text any character as an insider">📱<span id="phoneBadge" class="badge hidden">0</span></button><button data-tab="activity" id="activityTab" title="what the simulation has done, step by step">Log</button><button id="wideBtn" class="wide-btn" title="widen the feed">⤢</button></div>
+    <section class="tab hidden" id="tab-markets">
+      <div class="card"><h2>FLN 500</h2><svg id="indexChart" class="index-chart" viewBox="0 0 360 110" preserveAspectRatio="none"></svg><div id="indexLabel" class="small muted"></div></div>
+      <div class="card"><h2>Market headlines</h2><div id="marketHeadlines" class="small"></div></div>
+      <div class="card"><h2>Tickers</h2><div id="tickerList"></div></div>
+    </section>
+    <section class="tab" id="tab-feed">
+      <div class="card trending"><h2>Trending</h2><div id="trending" class="muted">nothing yet</div></div>
+      <div id="feed"></div>
+    </section>
+    <section class="tab hidden" id="tab-state">
+      <section class="card" id="detail"><h2>Click a state</h2><p class="muted">Persona, ladder stage, top posts, and the protest scene.</p></section>
+    </section>
+    <section class="tab hidden" id="tab-phone">
+      <div class="phone" id="phone">
+        <div class="phone-top"><button id="phoneBack" class="small hidden">‹ contacts</button><div id="phoneTitle"><b>Phone</b> <span class="muted small">you are an insider; influence is earned</span></div></div>
+        <div id="phoneContacts" class="contacts"></div>
+        <div id="phoneThread" class="thread hidden"></div>
+        <div id="phoneCompose" class="compose hidden"><textarea id="phoneText" rows="2" placeholder="Text them… (they decide whether to believe you)"></textarea><button id="phoneSend" class="accent">Send</button></div>
+      </div>
+    </section>
+    <section class="tab hidden" id="tab-activity">
+      <div class="card"><h2>What is happening</h2><div id="activityNow" class="muted">no run loaded</div></div>
+      <div class="card"><h2>Spend this run</h2><div id="activitySpend" class="small muted">—</div></div>
+      <div class="card"><h2>Step by step</h2><div id="activityLog" class="actlog small muted">nothing yet</div></div>
+    </section>
+    <section class="tab hidden" id="tab-term"><div id="term" class="muted">not a governing season</div></section>
+    <section class="tab hidden" id="tab-blocs">
+      <section class="card"><h2>Blocs</h2><div id="blocs" class="muted">none yet</div></section>
+    </section>
+  </aside>
+</main>
+
+<div id="lightbox" class="lightbox hidden">
+  <button class="lb-close" id="lbClose">✕</button>
+  <img id="lbImg" alt="">
+  <video id="lbVideo" class="hidden" controls playsinline></video>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script src="/static/vendor/d3.v7.min.js"></script>
+<script src="/static/vendor/topojson-client.min.js"></script>
+<div id="settingsModal" class="modal hidden"><div class="modal-box" id="settingsBox"></div></div>
+<script src="/static/app.js?v=53"></script>
+<script src="/static/episode.js?v=53"></script>
+<script src="/static/settings.js?v=53"></script>
+<script src="/static/tour.js?v=53"></script>
+<script src="/static/tour_scripts.js?v=53"></script>
+</body>
+</html>

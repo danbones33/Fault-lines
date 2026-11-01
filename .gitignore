@@ -1,0 +1,28 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# environments
+.venv/
+tools/.rec/
+__pycache__/
+*.pyc
+
+# run output and generated media (large, and personal)
+runs/
+logs/
+log/
+videos/
+media/
+*.bak
+
+# editor / OS
+.DS_Store
+Thumbs.db
+
+# fetched at runtime from the Cartesia API (scripts/fetch_cartesia_voices.py)
+data/cartesia_voices.json
+
+# the simulation layer, downloaded by the installer
+mirofish/

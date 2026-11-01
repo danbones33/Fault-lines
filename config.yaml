@@ -1,0 +1,128 @@
+# FAULT LINES configuration. Everything tweakable lives here.
+# Secrets never go here: OPENROUTER_API_KEY, CARTESIA_API_KEY etc. come from the environment or faultlines/.env
+
+caps:
+  max_rounds: 20          # hard cap on simulation rounds per run (a governing season is 16 quarters)
+  max_agents: 51          # 50 states + 1 newswire seed account
+  max_image_calls: 200
+
+llm:
+  provider: auto                        # auto | openrouter | ollama | hybrid   (auto = hybrid when Ollama is running and an OpenRouter key is set)
+  openrouter_base_url: https://openrouter.ai/api/v1
+  agent_model: deepseek/deepseek-v4.1-flash  # env AGENT_MODEL overrides. About half of Gemini Flash's price; reasoning is switched off per request (providers.model_extras)
+  judge_model: deepseek/deepseek-v4.1-flash  # env JUDGE_MODEL overrides (google/gemini-2.5-flash is the fallback choice)
+  ollama_base_url: http://127.0.0.1:11434/v1
+  ollama_model: qwen2.5:14b             # the local model (also the fallback when no OpenRouter key)
+  # hybrid routing: which call kinds run on the local model. 'all' sends everything local; the rest go to OpenRouter.
+  # agents (the sim's state posts) and the judge are the bulk of the text; debate and between-season writing stay on the cloud model for quality.
+  local_kinds: [agent, judge, npc, memes_text, news, market, events, candidates, episode, conflict, tech, phone, crime]
+  cloud_kinds: [debate, season]
+  judge_temperature: 0.1
+  judge_batch_size: 10
+  model_timeout_s: 600
+  log_file: logs/llm_calls.jsonl        # every call + token counts + cost
+
+spend:
+  run_budget_usd: 5.00     # env RUN_BUDGET_USD overrides. Media generation halts here; the sim itself keeps running.
+  warn_at_fraction: 0.8
+
+sim:
+  agents_per_round: 25
+  semaphore: 4               # concurrent agent calls (match OLLAMA_NUM_PARALLEL when local)
+  judge_concurrency: 4       # judge batches scored in parallel
+  max_rec_post_len: 6
+  following_post_count: 4
+  seed_max_chars: 1500
+  newswire_followups: true
+  decision_layer:            # one option-bank call a round + rule-based picks for most states (fast, cheap); the rest stay full LLM agents
+    enabled: true
+    llm_agent_fraction: 0.35 # share of active states that still run the full LLM agent (the angriest states first)
+    options_per_cluster: 6
+    engine: laya             # laya | bank | llm (env FL_DECIDER overrides). laya: one Laya pass decides every state;
+                             # bank: the option bank above; llm: every active state is a full LLM agent.
+                             # If laya cannot load, the run logs one warning and uses the bank.
+    max_llm_writers: 6       # laya: the angriest writers get real text from one batched local call; the rest use bank text
+    action_mix: {post: 0.35, quote: 0.25, like: 0.20, repost: 0.10, do_nothing: 0.10}
+                             # laya: how many states take each action; Laya picks which states. Zero-shot Laya's own action
+                             # probabilities are nearly flat (top answer: 69% like, 0% quote), so the mix sets the shape.
+                             # null = Laya's top answer as is.
+    max_quote_share: 0.35    # laya: quotes beyond this share of active states become posts
+    neighbor_bias: 1.25      # laya: weight on neighbors' posts when picking what to react to
+    low_confidence_llm_fallback: false   # laya: states whose action confidence is under low_confidence_min get the full LLM agent
+    low_confidence_min: 0.55
+
+scoring:
+  rule_weight: 0.5
+  judge_weight: 0.5
+  smoothing: 0.45
+  decay_to_baseline: 0.08
+  stage_thresholds: [20, 40, 60, 80]   # calm | petition | protest | strike | riot
+  bloc_cohesion_threshold: 55
+  bloc_min_states: 2
+  bloc_max_states: 10      # bigger connected components split into regional blocs (a bloc is a region, not the country)
+
+media:
+  feed: true               # the fake X feed (always cheap: text only)
+  memes: true              # meme images (paid when an image provider is live)
+  images: true             # protest scene images
+  avatars: true            # one avatar per identity, cached forever under media/avatars
+  video: false             # clips on big moments (needs VIDEO_PROVIDER + key)
+  broadcasts: true         # news desk scripts every round; voiced + portraits with keys
+  rants: true              # voiced influencer rant per round (needs CARTESIA_API_KEY)
+  memes_per_round: 3       # env MEMES_PER_ROUND overrides
+  npc_reactions_per_round: 10
+  feed_top_posts: 6        # posts NPCs react to each round
+  scene_min_stage: 2       # protest or higher
+
+images:
+  provider: auto           # auto | openrouter | comfyui | placeholder
+  openrouter_model: black-forest-labs/flux-3-image-klein
+  watermark: ""            # text stamped on generated crime pictures; empty = no stamp
+  max_calls_per_run: 200   # memes, scenes, portraits, event pictures (about $0.01 each); the run budget is the real guard
+  comfyui_url: http://127.0.0.1:8188
+  comfyui_workflow: images/comfy_flux_workflow.json
+  aspect_scene: "16:9"
+  aspect_meme: "1:1"
+  aspect_avatar: "1:1"
+
+video:
+  provider: none           # none | fal   (env VIDEO_PROVIDER overrides)
+  fal_model: fal-ai/wan/v2.2-5b/image-to-video
+  max_seconds: 6
+  triggers: [riot, bloc_formed, bloc_collapsed]
+
+broadcast:
+  networks:
+    - {id: fln_alarm, name: "FLN Red", anchor: "Dana Kessler", voice: anchor_a, studio: "red and black", emotion: "urgent, alarmed, breathless",
+       spin: "alarmist, urgent, breathless American cable-news energy; everything is a crisis"}
+    - {id: fln_calm, name: "FLN Blue", anchor: "Marcus Oyelaran", voice: anchor_b, studio: "blue and silver", emotion: "calm, dismissive, slightly bored",
+       spin: "dismissive, reassuring, slightly bored American cable news; nothing to see here, markets are fine"}
+    - {id: fln_world, name: "FLN World Service", anchor: "Clive Ashworth", voice: anchor_world, studio: "dark wood and brass, London newsroom with a rainy window", emotion: "dry, measured, faintly amused",
+       spin: "a British world-service desk in London explaining America to the rest of the world: dry, measured, faintly baffled, puts every event in international context and never raises its voice"}
+  tts_provider: auto       # auto | fish | cartesia | none  (auto = Fish if FISH_AUDIO_API_KEY, else Cartesia; env TTS_PROVIDER overrides)
+  fish_model: s2.1-pro     # Fish S2 supports [bracket] emotion cues in the text
+  tts_model: sonic-3       # env CARTESIA_MODEL overrides
+  avatar_provider: none    # none | omnihuman (env AVATAR_PROVIDER; endpoint/key via OMNIHUMAN_ENDPOINT / OMNIHUMAN_API_KEY)
+  script_seconds: 30
+  debate: true             # election runs: televised debate the day before the vote (one LLM call + voiced lines)
+  debate_questions: 3
+
+episode:
+  auto_build: true         # build the TV episode when a (non-demo) run finishes
+  music_volume: 0.18
+
+world:
+  start_year: 2026         # the first run's calendar starts here (the new-run form can override); a campaign round is a day, a term round a quarter
+  start_month: 10
+
+tech:
+  pace: realistic          # realistic | accelerated | singularity: how fast the world's technology moves between seasons
+  flags: []                # e.g. [disclosure] unlocks the gated interstellar tier
+
+server:
+  host: 127.0.0.1
+  port: 8008
+
+tour:
+  narrator_voice: 5fb68a42-0ed7-46fa-8a8f-ad4b332fbf6f   # Cartesia "Edward - Persuasive Promoter", general American (Levi was flat, Hugh too slow)
+  narrator_mood: calm                                    # even, explanatory delivery (the user found the excited promo read too much)
