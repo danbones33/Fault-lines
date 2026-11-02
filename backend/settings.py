@@ -16,12 +16,7 @@ ENV_PATH = os.path.join(FL_ROOT, ".env")
 # key, label, group, kind (secret | text | choice | number), extra
 FIELDS = [
     {"key": "OPENROUTER_API_KEY", "label": "OpenRouter key", "group": "text", "kind": "secret", "test": "openrouter",
-     "help": "One key for cloud text (any model on OpenRouter) and Flux pictures. Get one at openrouter.ai/keys."},
-    {"key": "LOCAL_MODEL", "label": "Local model", "group": "text", "kind": "text",
-     "help": "The Ollama model used for local text (default qwen2.5:14b)."},
-    {"key": "LLM_PROVIDER", "label": "Where the text runs", "group": "text", "kind": "choice",
-     "choices": [["auto", "Automatic"], ["ollama", "Local only (Ollama)"], ["openrouter", "Cloud only (OpenRouter)"], ["hybrid", "Both: local for most, cloud for debates"]],
-     "help": "Automatic uses both when both are there, otherwise whichever one you have."},
+     "help": "Get one at openrouter.ai/keys (add a few dollars of credit)."},
     {"key": "FISH_AUDIO_API_KEY", "label": "Fish Audio key", "group": "voices", "kind": "secret", "test": "fish",
      "help": "Voiced anchors, reporters and candidates, with emotion. fish.audio/app/api-keys (API credit is separate from the app's credit)."},
     {"key": "CARTESIA_API_KEY", "label": "Cartesia key", "group": "voices", "kind": "secret", "test": "cartesia",
@@ -29,23 +24,11 @@ FIELDS = [
     {"key": "FL_FALLBACK_VOICE", "label": "With no voice key", "group": "voices", "kind": "choice",
      "choices": [["off", "Silent: show the words"], ["browser", "Read aloud with the browser's voice"]],
      "help": "What the news, debates and episodes do when no voice key is set."},
-    {"key": "FAL_KEY", "label": "fal.ai key", "group": "video", "kind": "secret", "test": "fal",
-     "help": "Short video clips on big moments (riots, blocs forming). About 10 cents a clip. fal.ai/dashboard/keys"},
-    {"key": "VIDEO_PROVIDER", "label": "Video clips", "group": "video", "kind": "choice",
-     "choices": [["none", "Off"], ["fal", "On (needs the fal.ai key)"]]},
     {"key": "RUN_BUDGET_USD", "label": "Spending cap per run ($)", "group": "spend", "kind": "number",
-     "help": "Paid pictures, voices and video stop at this amount for each run. The simulation keeps going."},
+     "help": "Paid pictures and voices stop at this amount for each run. The simulation keeps going."},
 ]
 BY_KEY = {f["key"]: f for f in FIELDS}
 SECRET_RE = re.compile(r"^[A-Za-z0-9_\-\.:/+=]{8,300}$")
-MODEL_RE = re.compile(r"^[A-Za-z0-9_\-\.:/]{1,100}$")
-
-# Suggested local models for the Settings download button (sizes are Ollama's download sizes).
-OLLAMA_SUGGESTED = [
-    {"name": "qwen2.5:14b", "size": "9 GB", "note": "best results; wants a graphics card with 16 GB or more"},
-    {"name": "qwen2.5:7b", "size": "4.7 GB", "note": "good on 8 to 12 GB graphics cards"},
-    {"name": "qwen2.5:3b", "size": "1.9 GB", "note": "runs almost anywhere, rougher writing"},
-]
 
 
 def mask(v):
@@ -88,8 +71,6 @@ def validate(key, value):
         if not 0 <= n <= 1000:
             raise ValueError(f"{f['label']}: between 0 and 1000")
         value = f"{n:g}"
-    if f["key"] == "LOCAL_MODEL" and not MODEL_RE.match(value):
-        raise ValueError(f"{f['label']}: a model name like qwen2.5:7b")
     return value
 
 
@@ -146,7 +127,7 @@ def apply(values, clear=()):
 
 def test(name, value=None, timeout=12):
     """Checks a key with a free call (no generation, no charge). Returns {ok, message}."""
-    keys = {"openrouter": "OPENROUTER_API_KEY", "cartesia": "CARTESIA_API_KEY", "fish": "FISH_AUDIO_API_KEY", "fal": "FAL_KEY"}
+    keys = {"openrouter": "OPENROUTER_API_KEY", "cartesia": "CARTESIA_API_KEY", "fish": "FISH_AUDIO_API_KEY"}
     if name not in keys:
         return {"ok": False, "message": "unknown test"}
     key = (value or "").strip() or os.environ.get(keys[name], "")
@@ -180,67 +161,9 @@ def test(name, value=None, timeout=12):
                 except (TypeError, ValueError):
                     return {"ok": True, "message": "works"}
             return _bad(r)
-        if name == "fal":
-            return {"ok": True, "message": "saved; fal.ai keys can only be checked by making a clip, so this one is untested"}
     except httpx.HTTPError as e:
         return {"ok": False, "message": f"could not reach the service ({type(e).__name__}); check your internet connection"}
     return {"ok": False, "message": "unknown test"}
-
-
-def ollama_root(base):
-    """http://localhost:11434/v1 -> http://127.0.0.1:11434 (on Windows 'localhost' tries IPv6 first and stalls ~2 s)"""
-    return re.sub(r"/v1/?$", "", (base or "http://127.0.0.1:11434/v1").rstrip("/")).replace("://localhost", "://127.0.0.1")
-
-
-_OLLAMA = {}   # root -> (status, checked_at)
-
-
-def ollama_status(base, timeout=2.5, fresh=False):
-    """{running, models: [names]}. Cached 10 s (a refused connection costs ~2 s on Windows); fresh=True rechecks."""
-    import time
-    root = ollama_root(base)
-    hit = _OLLAMA.get(root)
-    if hit and not fresh and time.time() - hit[1] < 10:
-        return hit[0]
-    try:
-        r = httpx.get(root + "/api/tags", timeout=timeout)
-        st = {"running": True, "models": [m.get("name") for m in (r.json() or {}).get("models", [])]}
-    except Exception:
-        st = {"running": False, "models": []}
-    _OLLAMA[root] = (st, time.time())
-    return st
-
-
-PULL = {"model": None, "status": "idle", "done": 0, "total": 0, "error": None}
-
-
-def start_pull(base, model):
-    """Downloads a model through Ollama's own API in a background thread; progress in PULL."""
-    import json
-    import threading
-    if not MODEL_RE.match(model or ""):
-        raise ValueError("a model name like qwen2.5:7b")
-    if PULL["status"] == "pulling":
-        raise ValueError(f"already downloading {PULL['model']}")
-    PULL.update({"model": model, "status": "pulling", "done": 0, "total": 0, "error": None, "note": "starting"})
-
-    def run():
-        try:
-            with httpx.stream("POST", ollama_root(base) + "/api/pull", json={"model": model, "stream": True}, timeout=None) as r:
-                for line in r.iter_lines():
-                    if not line:
-                        continue
-                    d = json.loads(line)
-                    if d.get("error"):
-                        raise RuntimeError(d["error"])
-                    PULL["note"] = d.get("status", "")
-                    if d.get("total"):
-                        PULL["total"], PULL["done"] = d["total"], d.get("completed", 0)
-            PULL["status"] = "done"
-        except Exception as e:
-            PULL.update({"status": "error", "error": str(e)[:200]})
-    threading.Thread(target=run, daemon=True).start()
-    return dict(PULL)
 
 
 def _bad(r):

@@ -4,7 +4,7 @@
 #   1. uv (installs Python and the app's packages for you)
 #   2. MiroFish-Offline, the simulation layer, downloaded into ./mirofish (pinned version)
 #   3. MiroFish's packages (the first time takes a few minutes and a few GB)
-# Nothing here needs an API key. Keys, voices and the local model are set from the app's Settings button.
+# Nothing here needs an API key. Keys are added from the app's Settings button.
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 MIROFISH_COMMIT="313fe642853ff9fff05e3ecae2e439886c2d29f4"
@@ -58,12 +58,5 @@ if [ ! -f "$BACKEND/.venv/.faultlines-ok" ]; then
 fi
 say "engine packages are ready"
 
-step "Checking for Ollama (optional: free local AI)"
-if command -v ollama >/dev/null 2>&1; then
-  say "Ollama is installed. Pick and download a model from the app's Settings."
-else
-  say "Ollama is not installed. That's fine: use an OpenRouter key instead, or just watch a demo."
-  say "For free local AI later: https://ollama.com/download"
-fi
 
 printf '\nSetup done. Starting FAULT LINES...\n'

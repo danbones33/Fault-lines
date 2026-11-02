@@ -4,8 +4,9 @@ One command to start FAULT LINES:
     uv run run.py            (the installers, start.cmd and start.sh, run this for you)
 
 Says what is ready, then serves the app on http://127.0.0.1:8008 and opens it in your browser.
-Nothing is required: without a text model or keys the app still opens, and you can watch a demo run.
-Set everything else up from the app's Settings button. Add --no-browser to skip opening the browser.
+Nothing is required: without keys the app still opens, and you can watch a demo run. An OpenRouter key (added
+from the app's Settings button) runs your own scenarios.
+Add --no-browser to skip opening the browser.
 """
 import os
 import sys
@@ -27,15 +28,16 @@ def check():
     from providers import load_dotenv_file
     from engine import find_mirofish, mirofish_python
     load_dotenv_file(os.path.join(HERE, ".env"))
-    base = CFG["llm"].get("ollama_base_url", "http://127.0.0.1:11434/v1").rstrip("/")
-    model = os.environ.get("LOCAL_MODEL") or CFG["llm"].get("ollama_model", "qwen2.5:14b")
-    try:
-        names = [m["name"] for m in httpx.get(base[:-3] + "/api/tags", timeout=3).json().get("models", [])]
-        have = model in names or f"{model}:latest" in names
-        print(f"[ok] Ollama is running" + ("" if have else f"; the model {model} is not downloaded yet (Settings can download it)"))
-    except Exception:
-        print("[--] Ollama is not running: fine if you use an OpenRouter key, or just want to watch a demo")
-    print("[ok] OpenRouter key set" if os.environ.get("OPENROUTER_API_KEY") else "[--] no OpenRouter key")
+    prov = (os.environ.get("LLM_PROVIDER") or CFG["llm"].get("provider", "openrouter")).lower()
+    if prov in ("ollama", "hybrid", "auto"):          # developers only: a local model chosen in .env
+        base = CFG["llm"].get("ollama_base_url", "http://127.0.0.1:11434/v1").rstrip("/")
+        try:
+            httpx.get(base[:-3] + "/api/tags", timeout=3)
+            print("[ok] Ollama is running")
+        except Exception:
+            print(f"[!!] LLM_PROVIDER={prov} but Ollama is not running")
+    print("[ok] OpenRouter key set" if os.environ.get("OPENROUTER_API_KEY")
+          else "[--] no OpenRouter key yet: add one in Settings to run your own scenarios (demo runs work without it)")
     voices = [n for n, k in (("Fish Audio", "FISH_AUDIO_API_KEY"), ("Cartesia", "CARTESIA_API_KEY")) if os.environ.get(k)]
     print(f"[ok] voices: {' + '.join(voices)}" if voices else "[--] no voice key: news and debates play silently with the words on screen")
     py = mirofish_python(find_mirofish())

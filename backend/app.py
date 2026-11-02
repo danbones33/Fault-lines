@@ -19,7 +19,6 @@ FAULT LINES API + static frontend + LLM logging/spend proxy.
   GET  /api/settings                  editable settings (secrets only as set / last four characters)
   POST /api/settings                  {values, clear}: saves to .env and applies at once
   POST /api/settings/test             {name, value?}: checks a key with a free call
-  POST /api/settings/ollama/pull      {model}: downloads a local model through Ollama; GET for progress
   POST /llm/{run_id}/v1/chat/completions   proxy for the sim agents -> OpenRouter or Ollama; logs tokens + cost
 """
 import json
@@ -130,28 +129,17 @@ def _local_only(request: Request):
         raise HTTPException(403, "settings can only be changed from the app's own page")
 
 
-def _has_model(want, models):
-    base = want if ":" in want else want + ":latest"
-    return any(m in (want, base) for m in models)
-
-
-def setup_status(fresh=False):
-    oll = settings.ollama_status(LLM.local_base, fresh=fresh)
-    want = LLM.local_model
-    have_model = _has_model(want, oll["models"])
-    local_ready = oll["running"] and have_model
-    cloud_ready = bool(LLM.key)
+def setup_status():
+    text_ready = LLM.available()          # an OpenRouter key (or, for developers who chose it in .env, a local Ollama)
     mf = mirofish_python(RUNS.mirofish_backend)
     voices = "fish" if TTSP.fish.available else "cartesia" if TTSP.cartesia.available else "none"
     return {
-        "text": {"ready": bool(local_ready or cloud_ready), "provider": LLM.provider, "cloud": cloud_ready,
-                 "local": {"running": oll["running"], "model": want, "has_model": have_model, "models": oll["models"]}},
+        "text": {"ready": bool(text_ready), "provider": LLM.provider, "cloud": bool(LLM.key)},
         "engine": {"ready": bool(mf)},
         "pictures": "flux" if IMAGES.paid else IMAGES.provider,
         "voices": voices, "fallback_voice": os.environ.get("FL_FALLBACK_VOICE") or "off",
-        "video": VIDEO.provider, "budget_usd": SPEND.default_budget,
-        "can_run": bool((local_ready or cloud_ready) and mf), "can_demo": True,
-        "suggested_models": settings.OLLAMA_SUGGESTED,
+        "budget_usd": SPEND.default_budget,
+        "can_run": bool(text_ready and mf), "can_demo": True,
     }
 
 
@@ -193,40 +181,6 @@ def test_setting(body: TestBody, request: Request):
     return settings.test(body.name, body.value)
 
 
-class PullBody(BaseModel):
-    model: str
-
-
-@app.post("/api/settings/ollama/pull")
-def pull_model(body: PullBody, request: Request):
-    _local_only(request)
-    if not settings.ollama_status(LLM.local_base, fresh=True)["running"]:
-        raise HTTPException(400, "Ollama is not running. Install it from ollama.com, open it, then try again.")
-    try:
-        return settings.start_pull(LLM.local_base, body.model)
-    except ValueError as e:
-        raise HTTPException(400, str(e))
-
-
-@app.get("/api/settings/ollama/pull")
-def pull_progress(request: Request):
-    _local_only(request)
-    p = dict(settings.PULL)
-    if p["status"] == "done" and p.get("model") and p["model"] != os.environ.get("LOCAL_MODEL"):
-        settings.apply({"LOCAL_MODEL": p["model"]})      # the model just downloaded becomes the local model
-        reload_providers()
-        p["applied"] = True
-    return p
-
-
-@app.post("/api/settings/recheck")
-def recheck(request: Request):
-    """Ollama was started (or a model pulled) after the app: probe again."""
-    _local_only(request)
-    reload_providers()
-    return setup_status(fresh=True)
-
-
 @app.get("/api/states")
 def get_states():
     return RUNS.states
@@ -242,7 +196,7 @@ def create_run(body: NewRun):
     if not body.text.strip():
         raise HTTPException(400, "scenario text is empty")
     if not body.demo and not LLM.available():
-        raise HTTPException(503, "No text model is set up yet. Open Settings to start Ollama or add an OpenRouter key, or try a demo run.")
+        raise HTTPException(503, "No OpenRouter key yet. Open Settings to add one, or try a demo run.")
     b = body
     jid = RUNS.start_job("run", lambda job: RUNS.create_run(b.text, b.rounds, b.agents_per_round, b.demo, b.title, b.seed, b.election, b.events,
                                                             start=(b.start_year, b.start_month) if b.start_year else None, job=job))

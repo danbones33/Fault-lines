@@ -46,7 +46,7 @@ def test_validation_rejects_junk():
     fresh_env()
     for values in ({"OPENROUTER_API_KEY": "my key is here"}, {"OPENROUTER_API_KEY": "short"},
                    {"CARTESIA_API_KEY": "abcdefghij\nEVIL=1"}, {"FL_FALLBACK_VOICE": "loud"},
-                   {"RUN_BUDGET_USD": "lots"}, {"RUN_BUDGET_USD": "-1"}, {"LOCAL_MODEL": "qwen; rm -rf"},
+                   {"RUN_BUDGET_USD": "lots"}, {"RUN_BUDGET_USD": "-1"}, {"LOCAL_MODEL": "qwen2.5:7b"}, {"FAL_KEY": "abcdefgh12345678"},
                    {"MIROFISH_BACKEND": "C:/x"}, {"PATH": "x"}):
         try:
             settings.apply(values)
@@ -63,11 +63,12 @@ def test_validation_rejects_junk():
 
 def test_view_never_shows_a_secret():
     fresh_env()
-    settings.apply({"FISH_AUDIO_API_KEY": "abcdef0123456789secretTAIL", "LOCAL_MODEL": "qwen2.5:7b"})
+    settings.apply({"FISH_AUDIO_API_KEY": "abcdef0123456789secretTAIL", "FL_FALLBACK_VOICE": "browser"})
     v = {f["key"]: f for f in settings.view()}
     assert v["FISH_AUDIO_API_KEY"]["set"] is True and v["FISH_AUDIO_API_KEY"]["hint"] == "•••• TAIL"
     assert "value" not in v["FISH_AUDIO_API_KEY"] and "0123456789" not in str(settings.view())
-    assert v["LOCAL_MODEL"]["value"] == "qwen2.5:7b" and v["OPENROUTER_API_KEY"]["set"] is False
+    assert v["FL_FALLBACK_VOICE"]["value"] == "browser" and v["OPENROUTER_API_KEY"]["set"] is False
+    assert "LOCAL_MODEL" not in v and "FAL_KEY" not in v and "VIDEO_PROVIDER" not in v      # not offered in the release
 
 
 def test_key_test_needs_a_key():

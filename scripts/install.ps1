@@ -3,7 +3,7 @@
 #   1. uv (installs Python and the app's packages for you)
 #   2. MiroFish-Offline, the simulation layer, downloaded into .\mirofish (pinned version)
 #   3. MiroFish's packages (the first time takes a few minutes and a few GB)
-# Nothing here needs an API key. Keys, voices and the local model are set from the app's Settings button.
+# Nothing here needs an API key. Keys are added from the app's Settings button.
 
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
@@ -98,16 +98,6 @@ if (-not (Test-Path $okMark)) {
     Set-Content -Path $okMark -Value "ok" -Encoding ascii
 }
 Say "engine packages are ready"
-
-# 4. Ollama (optional)
-Step "Checking for Ollama (optional: free local AI)"
-$ollama = Get-Command ollama -ErrorAction SilentlyContinue
-if ($ollama -or (Test-Path (Join-Path $env:LOCALAPPDATA "Programs\Ollama\ollama.exe"))) {
-    Say "Ollama is installed. Pick and download a model from the app's Settings."
-} else {
-    Say "Ollama is not installed. That's fine: use an OpenRouter key instead, or just watch a demo."
-    Say "For free local AI later: https://ollama.com/download"
-}
 
 Write-Host ""
 Write-Host "Setup done. Starting FAULT LINES..." -ForegroundColor Green

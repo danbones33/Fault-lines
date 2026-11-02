@@ -153,11 +153,9 @@ class TextLLM:
     def available(self):
         if self.provider == "ollama":
             return self.local_ok or self._probe_local()
-        try:
-            r = httpx.get(f"{self.base_url}/models", headers=self.headers(), timeout=8)
-            return r.status_code == 200
-        except Exception:
-            return False
+        # OpenRouter: a saved key is all it takes. The page asks this on every refresh, so no network call here;
+        # the Settings panel's Test button checks the key itself.
+        return bool(self.key)
 
     def chat(self, messages, *, kind, run_id=None, model=None, temperature=0.3, json_mode=True, max_tokens=1500, _retry_cloud=True):
         """Returns content string. Logs tokens + cost. Raises on transport error. Hybrid: the kind picks local or cloud;

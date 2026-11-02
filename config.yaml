@@ -7,7 +7,8 @@ caps:
   max_image_calls: 200
 
 llm:
-  provider: auto                        # auto | openrouter | ollama | hybrid   (auto = hybrid when Ollama is running and an OpenRouter key is set)
+  provider: openrouter                  # openrouter | ollama | hybrid | auto. The release runs on OpenRouter; developers can set
+                                        # LLM_PROVIDER=ollama (all local) or hybrid (local for most kinds, cloud for cloud_kinds) in .env
   openrouter_base_url: https://openrouter.ai/api/v1
   agent_model: deepseek/deepseek-v4.1-flash  # env AGENT_MODEL overrides. About half of Gemini Flash's price; reasoning is switched off per request (providers.model_extras)
   judge_model: deepseek/deepseek-v4.1-flash  # env JUDGE_MODEL overrides (google/gemini-2.5-flash is the fallback choice)

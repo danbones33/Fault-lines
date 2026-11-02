@@ -28,21 +28,19 @@ It's a toy, not a forecast. Every person in it is fictional.
    minutes and a few GB, once. After that, it starts in seconds.
 3. **Use it.** The app opens in your browser. Keep the black window open while you use it; close it to stop the app.
 
-Nothing else is required. With nothing set up you can watch a **demo run** right away (canned text, no AI). Press
-**Settings** in the top right to add more. Every piece is optional and works without the others:
+Nothing else is required. With nothing set up you can watch a **demo run** right away (canned text, no AI). To run
+your own scenarios, press **Settings** in the top right and paste an OpenRouter key. Everything is optional:
 
 | Add this | And you get | Cost |
 |---|---|---|
 | Nothing | Demo runs: the map, blocs, the feed and the news, from canned text | Free |
-| [Ollama](https://ollama.com/download) (then pick a model in Settings) | Your own scenarios, with the AI running on your computer | Free; wants a graphics card |
-| An [OpenRouter](https://openrouter.ai/keys) key | Your own scenarios with cloud AI, plus Flux pictures (scenes, portraits, memes) | Pennies per run |
-| A [Fish Audio](https://fish.audio/app/api-keys) or [Cartesia](https://play.cartesia.ai/keys) key | Voiced anchors, reporters and candidates | Pennies per run |
-| A [fal.ai](https://fal.ai/dashboard/keys) key | Short video clips on big moments | About 10 cents a clip |
+| An [OpenRouter](https://openrouter.ai/keys) key | Your own scenarios, plus Flux pictures (scenes, portraits, memes) | Usually under $1 a run |
+| A [Fish Audio](https://fish.audio/app/api-keys) or [Cartesia](https://play.cartesia.ai/keys) key | Voiced anchors, reporters and candidates | Usually under $1 a run |
 
 Without a voice key the news, debates and episodes still play: they show the words on screen (or, if you prefer,
 Settings can have your browser read them aloud). Without pictures you get simple placeholders. Settings checks each
-key with a free call before you rely on it, and every run has a spending cap (default $5) that stops paid pictures,
-voices and video.
+key with a free call before you rely on it, and every run has a spending cap (default $5) that stops paid pictures
+and voices.
 
 Keys are saved in a file called `.env` in the app's folder, on your computer only. The Settings panel never shows a
 saved key again, only its last four characters.
@@ -80,23 +78,16 @@ Fault Lines sits on top of [MiroFish](https://github.com/666ghj/MiroFish), throu
 [OASIS](https://github.com/camel-ai/oasis) social simulation engine. Each round:
 
 1. A subset of states wakes up (25 by default), weighted toward the angriest.
-2. Each one decides what to do: post, quote, like, repost or stay quiet. By default a small decision model,
-   [Laya](https://huggingface.co/convaiinnovations/laya), makes that call for every state in one forward pass, so most
-   turns never touch a large language model. Only the states writing something new get text: the angriest few from one
-   batched local LLM call, the rest from a round-wide bank of options. `sim.decision_layer.engine` in `config.yaml`
-   switches between `laya`, `bank` (no Laya) and `llm` (every state is a full LLM agent).
+2. Each one decides what to do: post, quote, like, repost or stay quiet. One LLM call a round writes a bank of
+   options that simple rules pick from for most states, so a round needs only a handful of calls; the angriest states
+   run as full LLM agents and write their own posts. Developers can add [Laya](https://huggingface.co/convaiinnovations/laya),
+   a small decision model that makes the call for every state in one forward pass (see below).
+   `sim.decision_layer.engine` in `config.yaml` switches between `laya`, `bank` and `llm` (every state a full agent).
 3. A judge model scores every state's unrest and trust from what it wrote. Rules then move the map, form blocs and
    step the escalation ladder.
 4. The news desk, meme desk and market desk react to the round.
 
 Rules move the numbers and models write the words, so a run stays inspectable and tweakable.
-
-## Local first
-
-Agents and the judge run on a local model through [Ollama](https://ollama.com) (tested with `qwen2.5:14b` on an RTX 3090
-with 24 GB; Settings also offers smaller models for smaller graphics cards). Laya runs next to it on the same GPU
-(about 1.5 GB). With an OpenRouter key as well, debates and season rollovers use a cheap cloud model. With no keys at
-all, everything runs locally for free.
 
 ## Manual setup (for developers)
 
@@ -124,6 +115,10 @@ MiroFish's simulation runner.
 
 Everything in Settings can also be set in `.env` by hand; `.env.example` lists every setting the code reads, including
 model choices and per-role voice overrides.
+
+To run the text on your own graphics card instead of OpenRouter, install [Ollama](https://ollama.com), pull a model
+(developed with `qwen2.5:14b` on a 24 GB card) and set `LLM_PROVIDER=ollama` and `LOCAL_MODEL=<the model>` in `.env`.
+`LLM_PROVIDER=hybrid` runs most calls locally and the debates and season rollovers on OpenRouter.
 
 ## Tools
 
