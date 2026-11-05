@@ -34,7 +34,7 @@ your own scenarios, press **Settings** in the top right and paste an OpenRouter 
 | Add this | And you get | Cost |
 |---|---|---|
 | Nothing | Demo runs: the map, blocs, the feed and the news, from canned text | Free |
-| An [OpenRouter](https://openrouter.ai/keys) key | Your own scenarios, plus Flux pictures (scenes, portraits, memes) | Usually under $1 a run |
+| An [OpenRouter](https://openrouter.ai/keys) key | Your own scenarios, plus AI pictures (scenes, portraits, memes) | Usually under $1 a run |
 | A [Fish Audio](https://fish.audio/app/api-keys) or [Cartesia](https://play.cartesia.ai/keys) key | Voiced anchors, reporters and candidates | Usually under $1 a run |
 
 Without a voice key the news, debates and episodes still play: they show the words on screen (or, if you prefer,

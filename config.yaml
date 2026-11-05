@@ -77,9 +77,11 @@ media:
 
 images:
   provider: auto           # auto | openrouter | comfyui | placeholder
-  openrouter_model: black-forest-labs/flux-3-image-klein
+  openrouter_model: openai/gpt-image-2   # env IMAGE_MODEL overrides. Measured Nov 2026: 0.40c a wide scene, 0.60c a square at low quality,
+                                         # against 0.9c for FLUX 3 Klein, and its sign text is cleaner. List prices did not match real charges: test before switching.
+  quality: low                           # env IMAGE_QUALITY overrides: low | medium | high. Medium and up cost several times more.
   watermark: ""            # text stamped on generated crime pictures; empty = no stamp
-  max_calls_per_run: 200   # memes, scenes, portraits, event pictures (about $0.01 each); the run budget is the real guard
+  max_calls_per_run: 200   # memes, scenes, portraits, event pictures (about half a cent each); the run budget is the real guard
   comfyui_url: http://127.0.0.1:8188
   comfyui_workflow: images/comfy_flux_workflow.json
   aspect_scene: "16:9"

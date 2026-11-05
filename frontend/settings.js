@@ -4,7 +4,7 @@ const ST = {fields: [], setup: null, clear: new Set(), welcome: false};
 
 const GROUPS = [
   {id: "text", title: "The AI behind the 50 states",
-   intro: "One OpenRouter key runs your own scenarios: the states, the judge, the news and the debates. It also draws the pictures (Flux, about a cent each). Without a key you can still watch a demo run."},
+   intro: "One OpenRouter key runs your own scenarios: the states, the judge, the news and the debates. It also draws the pictures (about half a cent each). Without a key you can still watch a demo run."},
   {id: "voices", title: "Voices",
    intro: "With a Fish Audio or Cartesia key, the anchors, reporters and candidates speak. Without one, everything still plays; you read the words instead."},
   {id: "spend", title: "Spending", intro: "Only paid services count toward the cap."},
@@ -24,7 +24,7 @@ function statusLines(s) {
   const text = t.ready ? `<b class="ok">Ready</b> · ${t.cloud ? "OpenRouter" : stEsc(t.provider)}`
     : `<b class="no">Not set up</b> · demo runs only, until you add an OpenRouter key below`;
   const eng = s.engine.ready ? `<b class="ok">Installed</b>` : `<b class="no">Missing</b> · run the installer again (start.cmd on Windows, start.sh on Mac and Linux)`;
-  const pics = s.pictures === "flux" ? `<b class="ok">Flux pictures</b>` : `<b class="meh">Placeholders</b> (free)`;
+  const pics = s.pictures === "flux" ? `<b class="ok">AI pictures</b>` : `<b class="meh">Placeholders</b> (free)`;
   const voices = s.voices !== "none" ? `<b class="ok">${s.voices === "fish" ? "Fish Audio" : "Cartesia"}</b>` : s.fallback_voice === "browser" ? `<b class="meh">Browser voice</b>` : `<b class="meh">Silent</b> · words on screen`;
   return `<div class="st-status">
     <div><span>AI</span>${text}</div><div><span>Simulation engine</span>${eng}</div>

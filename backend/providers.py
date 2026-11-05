@@ -208,6 +208,7 @@ class ImageGen:
         self.root = root
         self.key = os.environ.get("OPENROUTER_API_KEY", "").strip()
         self.model = os.environ.get("IMAGE_MODEL") or cfg["openrouter_model"]
+        self.quality = os.environ.get("IMAGE_QUALITY") or cfg.get("quality")
         prov = cfg.get("provider", "auto")
         if prov == "auto":
             if self.key:
@@ -247,10 +248,14 @@ class ImageGen:
 
     def _openrouter(self, prompt, kind, run_id, aspect, seed):
         t0 = time.time()
-        body = {"model": self.model, "prompt": prompt, "aspect_ratio": aspect, "resolution": "1K"}
-        if seed is not None:
-            # provider-specific parameters go under provider.options (a top-level seed is a 400 on /images)
-            body["provider"] = {"options": {"black-forest-labs": {"seed": int(seed)}}}
+        body = {"model": self.model, "prompt": prompt, "aspect_ratio": aspect}
+        if self.quality and self.model.startswith("openai/"):
+            body["quality"] = self.quality      # OpenAI's picture price depends mostly on this
+        if self.model.startswith("black-forest-labs/"):
+            body["resolution"] = "1K"
+            if seed is not None:
+                # provider-specific parameters go under provider.options (a top-level seed is a 400 on /images)
+                body["provider"] = {"options": {"black-forest-labs": {"seed": int(seed)}}}
         headers = {"Authorization": f"Bearer {self.key}", "Content-Type": "application/json",
                    "HTTP-Referer": "http://localhost/faultlines", "X-Title": "FAULT LINES"}
         try:
